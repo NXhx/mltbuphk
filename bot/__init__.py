@@ -18,7 +18,7 @@ from pymongo import MongoClient
 from pyrogram import Client as tgClient, enums
 from qbittorrentapi import Client as qbClient
 from socket import setdefaulttimeout
-from subprocess import Popen, run
+from subprocess import Popen, run as srun
 from time import time
 from tzlocal import get_localzone
 from uvloop import install
@@ -119,8 +119,8 @@ if DATABASE_URL:
                     with open(file_, "wb+") as f:
                         f.write(value)
                     if file_ == "cfg.zip":
-                        run(["rm", "-rf", "/JDownloader/cfg"])
-                        run(["7z", "x", "cfg.zip", "-o/JDownloader"])
+                        srun(["rm", "-rf", "/JDownloader/cfg"])
+                        srun(["7z", "x", "cfg.zip", "-o/JDownloader"])
                         remove("cfg.zip")
         if a2c_options := db.settings.aria2c.find_one({"_id": bot_id}):
             del a2c_options["_id"]
@@ -140,7 +140,7 @@ else:
 if not ospath.exists(".netrc"):
     with open(".netrc", "w"):
         pass
-run(
+srun(
     "chmod 600 .netrc && cp .netrc /root/.netrc && chmod +x aria-nox.sh && ./aria-nox.sh",
     shell=True,
 )
@@ -449,16 +449,14 @@ if ospath.exists("list_drives.txt"):
 PORT = environ.get('PORT')
 Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT} --worker-class gevent", shell=True)
 
-run(["qbittorrent-nox", "-d", f"--profile={getcwd()}"])
+srun(["qbittorrent-nox", "-d", f"--profile={getcwd()}"])
 
 if ospath.exists("accounts.zip"):
     if ospath.exists("accounts"):
-        run(["rm", "-rf", "accounts"])
-    run(["7z", "x", "-o.", "-aoa", "accounts.zip", "accounts/*.json"])
-    run(["chmod", "-R", "777", "accounts"])
+        srun(["rm", "-rf", "accounts"])
+    srun(["7z", "x", "-o.", "-aoa", "accounts.zip", "accounts/*.json"])
+    srun(["chmod", "-R", "777", "accounts"])
     remove("accounts.zip")
-
-alive = Popen(["python3", "alive.py"])
 
 if not ospath.exists("accounts"):
     config_dict["USE_SERVICE_ACCOUNTS"] = False
