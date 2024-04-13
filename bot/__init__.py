@@ -20,7 +20,7 @@ from pyrogram import Client as tgClient, enums
 from qbittorrentapi import Client as qbClient
 from socket import setdefaulttimeout
 from subprocess import Popen, run as srun
-from time import time
+from time import sleep, time
 from tzlocal import get_localzone
 from uvloop import install
 
