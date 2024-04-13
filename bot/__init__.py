@@ -462,8 +462,6 @@ if ospath.exists("accounts.zip"):
 if not ospath.exists("accounts"):
     config_dict["USE_SERVICE_ACCOUNTS"] = False
 
-aria2 = ariaAPI(ariaClient(host="http://localhost", port=6800, secret=""))
-
 def get_qb_client():
     return qbClient(
         host="localhost",
@@ -472,23 +470,6 @@ def get_qb_client():
         REQUESTS_ARGS={"timeout": (30, 60)},
     )
     
-def aria2c_init():
-    try:
-        log_info("Initializing Aria2c")
-        link = "https://linuxmint.com/torrents/lmde-5-cinnamon-64bit.iso.torrent"
-        dire = DOWNLOAD_DIR.rstrip("/")
-        aria2.add_uris([link], {'dir': dire})
-        sleep(3)
-        downloads = aria2.get_downloads()
-        sleep(10)
-        aria2.remove(downloads, force=True, files=True, clean=True)
-    except Exception as e:
-        log_error(f"Aria2c initializing error: {e}")
-
-Thread(target=aria2c_init).start()
-sleep(1.5)
-
-
 aria2c_global = [
     "bt-max-open-files",
     "download-result",
