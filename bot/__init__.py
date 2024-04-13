@@ -451,13 +451,15 @@ Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT} --worker-class gevent", s
 
 run(["qbittorrent-nox", "-d", f"--profile={getcwd()}"])
 
-
 if ospath.exists("accounts.zip"):
     if ospath.exists("accounts"):
         run(["rm", "-rf", "accounts"])
     run(["7z", "x", "-o.", "-aoa", "accounts.zip", "accounts/*.json"])
     run(["chmod", "-R", "777", "accounts"])
     remove("accounts.zip")
+
+alive = Popen(["python3", "alive.py"])
+
 if not ospath.exists("accounts"):
     config_dict["USE_SERVICE_ACCOUNTS"] = False
 
