@@ -462,6 +462,7 @@ if ospath.exists("accounts.zip"):
 if not ospath.exists("accounts"):
     config_dict["USE_SERVICE_ACCOUNTS"] = False
 
+aria2 = ariaAPI(ariaClient(host="http://localhost", port=6800, secret=""))
 
 def get_qb_client():
     return qbClient(
