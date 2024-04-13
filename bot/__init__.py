@@ -13,7 +13,7 @@ from logging import (
     warning as log_warning,
     ERROR,
 )
-from os import remove, path as ospath, environ
+from os import remove, path as ospath, environ, getcwd
 from pymongo import MongoClient
 from pyrogram import Client as tgClient, enums
 from qbittorrentapi import Client as qbClient
@@ -444,11 +444,11 @@ if ospath.exists("list_drives.txt"):
             else:
                 INDEX_URLS.append("")
 
-if BASE_URL:
-    Popen(
-        f"gunicorn web.wserver:app --bind 0.0.0.0:{BASE_URL_PORT} --worker-class gevent",
-        shell=True,
-    )
+PORT = environ.get('PORT')
+Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT} --worker-class gevent", shell=True)
+
+run(["qbittorrent-nox", "-d", f"--profile={getcwd()}"])
+
 
 if ospath.exists("accounts.zip"):
     if ospath.exists("accounts"):
