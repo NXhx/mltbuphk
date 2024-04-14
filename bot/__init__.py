@@ -19,7 +19,7 @@ from pymongo import MongoClient
 from pyrogram import Client as tgClient, enums
 from qbittorrentapi import Client as qbClient
 from socket import setdefaulttimeout
-from subprocess import Popen, run as srun
+from subprocess import Popen, run
 from time import sleep, time
 from tzlocal import get_localzone
 from uvloop import install
@@ -120,8 +120,8 @@ if DATABASE_URL:
                     with open(file_, "wb+") as f:
                         f.write(value)
                     if file_ == "cfg.zip":
-                        srun(["rm", "-rf", "/JDownloader/cfg"])
-                        srun(["7z", "x", "cfg.zip", "-o/JDownloader"])
+                        run(["rm", "-rf", "/JDownloader/cfg"])
+                        run(["7z", "x", "cfg.zip", "-o/JDownloader"])
                         remove("cfg.zip")
         if a2c_options := db.settings.aria2c.find_one({"_id": bot_id}):
             del a2c_options["_id"]
@@ -450,13 +450,13 @@ if ospath.exists("list_drives.txt"):
 PORT = environ.get('PORT')
 Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT} --worker-class gevent", shell=True)
 
-srun(["qbittorrent-nox", f"--profile={getcwd()}"])
+run(["qbittorrent-nox", f"--profile={getcwd()}"])
 
 if ospath.exists("accounts.zip"):
     if ospath.exists("accounts"):
-        srun(["rm", "-rf", "accounts"])
-    srun(["7z", "x", "-o.", "-aoa", "accounts.zip", "accounts/*.json"])
-    srun(["chmod", "-R", "777", "accounts"])
+        run(["rm", "-rf", "accounts"])
+    run(["7z", "x", "-o.", "-aoa", "accounts.zip", "accounts/*.json"])
+    run(["chmod", "-R", "777", "accounts"])
     remove("accounts.zip")
 
 if not ospath.exists("accounts"):
