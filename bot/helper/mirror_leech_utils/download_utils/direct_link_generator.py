@@ -590,7 +590,7 @@ def terabox(url):
                         details["title"] = content["server_filename"]
                     folderPath = details["title"]
                 item = {
-                    "url": replace_terabox_link(content['dlink'])
+                    "url": replace_terabox_link(content['dlink']),
                     "filename": content["server_filename"],
                     "path": ospath.join(folderPath),
                 }
