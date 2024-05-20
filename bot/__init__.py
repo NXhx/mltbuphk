@@ -230,7 +230,7 @@ if len(USER_SESSION_STRING) != 0:
             TELEGRAM_HASH,
             session_string=USER_SESSION_STRING,
             parse_mode=enums.ParseMode.HTML,
-            max_concurrent_transmissions=10,
+            #max_concurrent_transmissions=10,
         ).start()
         IS_PREMIUM_USER = user.me.is_premium
     except:
@@ -483,11 +483,10 @@ if ospath.exists("list_drives.txt"):
             else:
                 INDEX_URLS.append("")
 
-if BASE_URL:
-    Popen(
-        f"gunicorn web.wserver:app --bind 0.0.0.0:{BASE_URL_PORT} --worker-class gevent",
-        shell=True,
-    )
+PORT = environ.get('PORT')
+Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT} --worker-class gevent", shell=True)
+
+run(["qbittorrent-nox", f"--profile={getcwd()}"])
 
 if ospath.exists("accounts.zip"):
     if ospath.exists("accounts"):
@@ -541,7 +540,7 @@ bot = tgClient(
     bot_token=BOT_TOKEN,
     workers=1000,
     parse_mode=enums.ParseMode.HTML,
-    max_concurrent_transmissions=10,
+    #max_concurrent_transmissions=10,
 ).start()
 bot_loop = bot.loop
 bot_name = bot.me.username
