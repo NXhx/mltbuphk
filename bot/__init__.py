@@ -489,6 +489,8 @@ if ospath.exists("list_drives.txt"):
 PORT = environ.get('PORT')
 Popen(f"gunicorn web.wserver:app --bind 0.0.0.0:{PORT} --worker-class gevent", shell=True)
 
+run(["qbittorrent-nox", f"--profile={getcwd()}"])
+
 if ospath.exists("accounts.zip"):
     if ospath.exists("accounts"):
         run(["rm", "-rf", "accounts"])
