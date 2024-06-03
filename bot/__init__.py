@@ -13,7 +13,7 @@ from logging import (
     warning as log_warning,
     ERROR,
 )
-from os import remove, path as ospath, environ
+from os import remove, path as ospath, environ, getcwd
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from pyrogram import Client as tgClient, enums
